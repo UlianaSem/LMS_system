@@ -9,6 +9,8 @@ class Student(models.Model):
     last_name = models.CharField(max_length=100, verbose_name='фамилия')
     profile_photo = models.ImageField(upload_to='students/', verbose_name='фото профиля', **NULLABLE)
 
+    is_active = models.BooleanField(default=True, verbose_name='учится')
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
 
