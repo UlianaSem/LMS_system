@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "django-lesson"
+version = "0.1.0"
+description = ""
+authors = ["Uliana Semyonova <i@ulianasemyonova.ru>"]
+readme = "README.md"
+packages = [{include = "django_lesson"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.4"
+psycopg2 = "^2.9.7"
+pillow = "^10.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
