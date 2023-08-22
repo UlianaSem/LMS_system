@@ -1,10 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
 
-</body>
-</html>
+{% block content %}
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <div class="card-body">
+                    <h2 class="card-text">КОНТАКТЫ
+                    </h2>
+                    <p class="card-text">Екатеринбрг, мкр. Светлый, 3, оф. 5</p>
+                    <p class="card-text">Тел. 8 888 888 88</p>
+                    <p class="card-text">Email: company@company.ru</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <form method="post">
+              {%csrf_token %}
+              <div class="mb-3">
+                <label for="exampleInputName" class="form-label">Имя</label>
+                <input name="name" type="text" class="form-control" id="exampleInputName" aria-describedby="emailHelp">
+              </div>
+              <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email</label>
+                <input name="email" type="email" class="form-control" id="exampleInputEmail1">
+              </div>
+              <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        </div>
+{% endblock %}
