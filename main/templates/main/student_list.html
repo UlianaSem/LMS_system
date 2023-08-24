@@ -1,6 +1,9 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+    <div class="col-12 mb-5">
+        <a class="btn btn-outline-prumary" href="{% url 'main:create_student' %}">Добавить студента</a>
+    </div>
     <div class="row">
         {% for object in object_list %}
             {% include 'main/includes/inc_card_student.html' %}

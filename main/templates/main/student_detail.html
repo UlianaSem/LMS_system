@@ -1,0 +1,22 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow h-100">
+            <div class="card-body">
+                <p class="card-text">
+                    {% if object.is_active %}
+                        {{ object }}
+                    {% else %}
+                        <span class="text-muted">{{ object }}</span>
+                    {% endif %}
+                </p>
+                <div class="d-flex justify-content-between align-items-center">
+                </div>
+                <div class="col-6">
+                    <img src="/media/{{ object.profile_photo }}">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
