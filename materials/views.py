@@ -26,6 +26,7 @@ class MaterialsUpdateView(UpdateView):
     def form_valid(self, form):
         if form.is_valid():
             new_mat = form.save()
+            print(new_mat.title)
             new_mat.slug = slugify(new_mat.title)
             new_mat.save()
 
