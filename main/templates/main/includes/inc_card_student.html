@@ -10,9 +10,15 @@
             </p>
             <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
-                    <a href="{% url 'main:student_view' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">К студенту</a>
-                    <a href="{% url 'main:update_student' object.pk %}" type="button" class="btn btn-sm btn-outline-primary">Изменить</a>
-                    <a href="{% url 'main:delete_student' object.pk %}" type="button" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% if perms.main.view_student %}
+                        <a href="{% url 'main:student_view' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">К студенту</a>
+                    {% endif %}
+                    {% if perms.main.change_student %}
+                        <a href="{% url 'main:update_student' object.pk %}" type="button" class="btn btn-sm btn-outline-primary">Изменить</a>
+                    {% endif %}
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:delete_student' object.pk %}" type="button" class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
