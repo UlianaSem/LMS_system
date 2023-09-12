@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
@@ -82,6 +82,8 @@ class StudentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser
 
 
+@login_required
+@permission_required(perm='main:change_student', login_url='main:home')
 def toggle_activity(request, pk):
     student_item = get_object_or_404(Student, pk=pk)
 

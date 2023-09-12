@@ -2,7 +2,9 @@
 
 {% block content %}
     <div class="col-12 mb-5">
-        <a class="btn btn-outline-primary" href="{% url 'materials:create' %}">Добавить материал</a>
+        {% if perms.materials.add_materials %}
+            <a class="btn btn-outline-primary" href="{% url 'materials:create' %}">Добавить материал</a>
+        {% endif %}
     </div>
         {% for object in object_list %}
             <div class="col-md-4">
@@ -14,8 +16,12 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <a href="{% url 'materials:view' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-                                <a href="{% url 'materials:edit' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
-                                <a href="{% url 'materials:delete' object.pk %}" type="button" class="btn btn-sm btn-outline-danger">Delete</a>
+                                {% if perms.materials.change_materials %}
+                                    <a href="{% url 'materials:edit' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                {% endif %}
+                                {% if perms.materials.delete_materials %}
+                                    <a href="{% url 'materials:delete' object.pk %}" type="button" class="btn btn-sm btn-outline-danger">Delete</a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>

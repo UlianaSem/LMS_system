@@ -24,9 +24,13 @@
         </div>
         <div class="card-footer">
             {% if object.is_active %}
-                <a class="btn btn-danger" href="{% url 'main:toggle_activity' object.pk %}">Деактивировать</a>
+                {% if perms.main.change_student %}
+                    <a class="btn btn-danger" href="{% url 'main:toggle_activity' object.pk %}">Деактивировать</a>
+                {% endif %}
             {% else %}
-                <a class="btn btn-success" href="{% url 'main:toggle_activity' object.pk %}">Активировать</a>
+                {% if perms.main.change_student %}
+                    <a class="btn btn-success" href="{% url 'main:toggle_activity' object.pk %}">Активировать</a>
+                {% endif %}
             {% endif %}
         </div>
     </div>
