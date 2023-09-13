@@ -1,5 +1,7 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -7,6 +9,8 @@ from django.urls import reverse_lazy, reverse
 from main.forms import StudentForm, SubjectForm
 from main.models import Student, Subject
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+
+from main.services import get_cached_subjects_for_student
 
 
 class StudentListView(LoginRequiredMixin, ListView):
@@ -31,6 +35,12 @@ def contacts(request):
 class StudentDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Student
     permission_required = 'main.view_student'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['subjects'] = get_cached_subjects_for_student(self.object.pk)
+
+        return context_data
 
 
 class StudentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
