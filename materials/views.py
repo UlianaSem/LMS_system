@@ -10,6 +10,9 @@ class MaterialsCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVie
     permission_required = 'materials.add_materials'
     fields = ('title', 'body', )
     success_url = reverse_lazy('materials:list')
+    extra_context = {
+        'title': "Добавление учебного материала"
+    }
 
     def form_valid(self, form):
         if form.is_valid():
@@ -25,6 +28,9 @@ class MaterialsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
     fields = ('title', 'body', )
     success_url = reverse_lazy('materials:list')
     permission_required = 'materials:change_materials'
+    extra_context = {
+        'title': "Обновление учебного материала"
+    }
 
     def form_valid(self, form):
         if form.is_valid():
@@ -41,6 +47,9 @@ class MaterialsUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
 
 class MaterialsListView(LoginRequiredMixin, ListView):
     model = Materials
+    extra_context = {
+        'title': "Учебный материал"
+    }
 
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
@@ -50,6 +59,9 @@ class MaterialsListView(LoginRequiredMixin, ListView):
 
 class MaterialsDetailView(LoginRequiredMixin, DetailView):
     model = Materials
+    extra_context = {
+        'title': "Просмотр материала"
+    }
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -62,3 +74,9 @@ class MaterialsDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteVie
     model = Materials
     success_url = reverse_lazy('materials:list')
     permission_required = 'materials:delete_materials'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Удаление материала {self.object.title}'
+
+        return context_data
