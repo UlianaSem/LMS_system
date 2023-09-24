@@ -1,7 +1,5 @@
-from django.conf import settings
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin, UserPassesTestMixin
-from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -15,6 +13,9 @@ from main.services import get_cached_subjects_for_student
 
 class StudentListView(LoginRequiredMixin, ListView):
     model = Student
+    extra_context = {
+        'title': "Список студентов"
+    }
 
 
 @login_required
@@ -40,6 +41,8 @@ class StudentDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView)
         context_data = super().get_context_data(**kwargs)
         context_data['subjects'] = get_cached_subjects_for_student(self.object.pk)
 
+        context_data['title'] = f'Студент {self.object.first_name} {self.object.last_name}'
+
         return context_data
 
 
@@ -48,12 +51,18 @@ class StudentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
     form_class = StudentForm
     permission_required = 'main.add_student'
     success_url = reverse_lazy('main:home')
+    extra_context = {
+        'title': "Добавление студента"
+    }
 
 
 class StudentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Student
     permission_required = 'main.change_student'
     form_class = StudentForm
+    extra_context = {
+        'title': "Изменение информации о студенте"
+    }
 
     def get_success_url(self):
         return reverse('main:update_student', args=[self.kwargs.get('pk')])
@@ -90,6 +99,12 @@ class StudentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f'Удаление студента {self.object.first_name} {self.object.last_name}'
+
+        return context_data
 
 
 @login_required
